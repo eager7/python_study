@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding:utf-8 -*-
 __author__ = 'changtao.pan'
 
 from mDbg import *
@@ -6,7 +7,7 @@ from SocketServer import TCPServer,ThreadingMixIn,StreamRequestHandler
 
 class Server(ThreadingMixIn,TCPServer):pass
 
-class Handler(StreamRequestHandler):
+class Handler(StreamRequestHandler):#为每个socket客户端创建一个线程
     def handle(self):
         addr = self.request.getpeername()
         NOT_Printf(True, 'Thread[%s] Got Client:%s'%(self,addr))
