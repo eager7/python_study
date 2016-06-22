@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import signal
-import re
+import re,sys
 import requests
 from subprocess import Popen,PIPE
 from urllib import urlopen
 from HTMLParser import HTMLParser
-from InternetSpider.mDbg import *
+from mDbg import *
 
 
-url = "http://jonathan.leanote.com/post/ROS-Tutorial%E7%AC%AC%E4%BA%94%E9%83%A8%E5%88%86%EF%BC%9A%E5%86%99%E4%B8%80%E4%B8%AAPublisher%E5%92%8CSubscriber"
+url = "http://1024.hegongchang.red/pw/thread.php?fid=17"
 
 def sigint_handler(signum,frame):
     print "main-thread exit"
@@ -32,4 +32,4 @@ if __name__ == '__main__':
     link_list =re.findall(r"(?<=href=\").+?(?=\")|(?<=href=\').+?(?=\')" ,r.text)
     for url_l in link_list:
         NOT_Printf(True, url_l)
-    print r.text
+    #print r.text
