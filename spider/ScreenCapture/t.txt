@@ -1,0 +1,539 @@
+[34;1m[DBG] My First Spider Program [0m
+
+
+
+
+用python抓取网页文章_kendy_新浪博客
+
+
+
+
+
+
+
+try{
+document.execCommand("BackgroundImageCache", false, true);
+}catch(e){}
+
+
+
+window.staticTime=new Date().getTime();
+
+
+
+
+
+@charset "utf-8";@import url("http://simg.sinajs.cn/blog7newtpl/css/4/4_1/t.css");
+
+
+.sinabloghead .blogtoparea{ left:120px;top:118.9px;}
+.sinabloghead .blognav{ left:120px;top:182.7px;}
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+    
+    
+      
+	  
+    
+    加载中…
+  
+
+
+
+
+	
+
+	   
+ 
+     
+	   
+      
+      加载中...
+	  		
+					http://blog.sina.com.cn/wangkendy  [订阅][手机订阅]
+      
+      
+      			    
+		首页
+      博文目录
+      图片
+      关于我
+            		      		 	
+      
+             
+       
+
+
+     
+     
+             
+
+    
+    
+    
+    
+    
+		
+	
+    
+    
+            个人资料
+            
+                        
+    
+    
+        
+                         
+            
+            
+            
+              
+                
+                kendy                                
+                
+                
+              
+              
+                微博
+                
+              
+            
+
+
+    
+    加好友
+    发纸条
+    
+    
+    写留言
+    加关注
+    
+    
+
+
+
+                       
+                                   
+                    博客等级：
+                    博客积分：0
+                    
+                    
+                    博客访问：9,365
+                    关注人气：4
+                    获赠金笔：0支
+                    赠出金笔：0支
+					荣誉徽章：
+                    
+                  
+
+    
+    
+
+                   
+            
+
+
+    
+    相关博文
+     
+    
+    
+            
+
+                
+            
+        
+        
+        
+            
+        
+        
+        
+                	
+    更多&gt;&gt;    
+    
+  
+
+
+推荐博文
+
+
+			
+			网红【奶酪包】
+        
+		台湾科技挣扎，人祸大于天灾？
+        
+		收入份额=市场份额，虎嗅想干什
+        
+		传奇的谢幕，谈岩田聪和他的任天
+        
+		家常主食轻松做之——培根香葱花
+        
+		盘点2015最惊艳流行的婚礼蛋
+        
+		非洲荒漠“精灵怪圈”引发诸多猜
+        
+		大白鲨海滩搁浅&nbsp;路人
+        
+		臭了才能闹起来，优衣库不雅大片
+        
+		英雄总有出处
+        
+				
+		
+		
+	查看更多&gt;&gt;
+
+
+        
+                谁看过这篇博文
+                                
+            
+            
+            	加载中…            
+            
+                  
+	
+	
+	
+		
+
+	
+	    正文
+	    字体大小：大 中 小
+	
+    
+
+	
+		 
+			
+								用python抓取网页文章
+			
+					(2013-01-06 10:20:58)转载▼		
+		
+			
+				
+					
+					
+					var $tag='linux,python,it';
+					var $tag_code='dcb36f2e4b6412ee67775a56d01f0041';
+					var $r_quote_bligid='6b60096f01017c0f';
+					var $worldcup='0';
+					var $worldcupball='0';
+					
+											标签：
+																				linux
+																				python
+																				it
+																
+					
+											分类：
+						学习工作
+										
+				
+			
+		
+						
+		
+			&nbsp; &nbsp;
+把网页上的文章保存到本地，这个需求很常见。但通常也非常容易，ctl+A ctl+C
+ctl+V就可以了，除非遇到特殊的情况，如这个网站http://www.forbeschina.com，用脚本把复制功能给屏蔽了。即使这样，解决办法也有很多，如禁止浏览器执行JS，直接整个页面另存为，查看网页源代码等。但这些方法都不是很方便，特别是你想要的文章分散在多个网页的时候。我用的办法是写一个python程序，给定url直接将文章内容保存到文本文件。
+
+&nbsp; &nbsp; 代码如下：getcontent.py
+
+import re
+import urllib
+
+def main():
+&nbsp; &nbsp; urls =
+['http://www.forbeschina.com/review/201301/0022393.shtml',
+&nbsp; &nbsp;
+'http://www.forbeschina.com/review/201301/0022393_2.shtml',
+&nbsp; &nbsp;
+'http://www.forbeschina.com/review/201301/0022393_3.shtml',
+&nbsp; &nbsp;
+'http://www.forbeschina.com/review/201301/0022393_4.shtml',
+&nbsp; &nbsp;
+'http://www.forbeschina.com/review/201301/0022393_5.shtml',
+&nbsp; &nbsp;
+'http://www.forbeschina.com/review/201301/0022393_6.shtml']
+
+&nbsp; &nbsp; for url in urls:
+&nbsp; &nbsp; &nbsp;
+&nbsp; f = urllib.urlopen(url)
+&nbsp; &nbsp; &nbsp;
+&nbsp; html = f.read()
+&nbsp; &nbsp; &nbsp;
+&nbsp; content = re.compile(u'&lt;div
+class="p_detail"&gt;.*?&lt;/div&gt;',
+re.DOTALL) #（1）
+&nbsp; &nbsp; &nbsp;
+&nbsp; style =
+content.search(html.decode('utf8'))
+&nbsp; &nbsp; &nbsp;
+&nbsp; if style:
+&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; html =
+style.group(0)
+&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; print
+'Found it'
+&nbsp; &nbsp; &nbsp;
+&nbsp; else:
+&nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; print 'Not
+found.'
+&nbsp; &nbsp; &nbsp;
+&nbsp; para =
+re.sub('&lt;[^&gt;]*&gt;', '',
+html);
+&nbsp; &nbsp; &nbsp;
+&nbsp; print para.encode('utf8') #（2）
+
+
+if __name__ == "__main__":
+&nbsp; &nbsp; main()
+
+
+&nbsp; &nbsp;
+有了这段代码，我们就可以以下命令来保存想要的文章：
+$ python getcontent.py &gt; content.txt
+
+&nbsp; &nbsp;
+就这几行代码就可以输出分散在6个网页的文章内容。也就是这几行代码，折腾了我几个小时，因为这里的正则匹配有个小小的陷阱，注意注释#（1）处，默认情况下，正则表达式中的'.'（点）匹配所有字符，换行（'\n'）除外！！（就是这个坑爹的换行，查了好久才发现），compile()的第二个参数re.DOTALL就表示让点匹配包括换行在内的所有字符；第二个要注意的正则匹配的贪婪和非贪婪问题，compile()的第一个参数，正则表达式&lt;div
+class="p_detail"&gt;.*?&lt;/div&gt;，这里的'?'号表示不使用贪婪匹配，这个表达式匹配以&lt;div
+class="p_detail"&gt;开始，直到第一次遇到&lt;/div&gt;之间的所有内容。如果没有那个'?'号，则表达式会一直匹配到html中的最后一个&lt;/div&gt;标签，那通常不是我们想要的。
+&nbsp;
+&nbsp;
+注意注释#（2）处，意思是把unicode字符串以utf8格式编码后输出，如果不显示指出编码格式，则以默认格式编码，而默认格式为ascii，如果文章中有中文的话，用ascii编码就会出错。
+
+&nbsp;
+&nbsp; 当然，这个代码现在非常的不通用！！需要在以下几方面进行改进。
+
+
+url通过命令行参数传入。这样就可以抓取任意网页的内容了。
+正则表达式通过命令行参数传入。毕竟不同网页使用的html结构不太可能一样。
+
+&nbsp; &nbsp; 参考：
+http://wiki.ubuntu.org.cn/Python正则表达式操作指南							
+		
+						
+		
+        	
+			分享： 
+			
+			
+			
+            
+	        	
+	            	
+	                喜欢
+	            
+
+                    0
+                    赠金笔
+                
+-->
+                                
+                    0
+                    赠金笔
+                
+                
+	        
+            
+		
+		
+			
+			
+				阅读┊ 
+				评论 ┊				收藏
+				┊转载				┊
+				喜欢▼
+									┊打印┊举报
+											
+			
+				
+					
+											已投稿到：
+						
+							
+								 排行榜							
+						
+										
+									
+			
+		
+		
+		加载中，请稍候......
+		
+							前一篇：MATLAT作者Cleve&nbsp;Moler讲座
+								
+		
+							
+		
+				
+			
+				
+				    评论
+				    
+				        重要提示：警惕虚假中奖信息
+				    
+				
+				[发评论]
+			
+			评论加载中，请稍候...
+			
+			
+				
+					
+					
+				
+				
+			
+			
+			
+				
+					
+					    发评论
+					    
+					
+					
+				
+				
+					
+				
+				
+					
+					
+					
+					
+					
+						
+					
+					
+						
+						
+						
+					
+					
+				
+				
+					 
+					登录名：   密码：   找回密码   注册	记住登录状态昵&nbsp;&nbsp;&nbsp;称： 分享到微博 &nbsp;&nbsp;&nbsp;评论并转载此博文
+					
+					
+
+					
+
+											匿名评论
+									
+				
+					发评论
+					以上网友发言只代表其个人观点，不代表新浪网的观点或立场。
+				
+			
+		
+				
+		
+				
+						  &lt;&nbsp;前一篇MATLAT作者Cleve&nbsp;Moler讲座
+								
+		
+				
+	
+	
+		
+			var voteid="";
+		
+
+                   
+            
+          
+
+	
+	
+	
+	&nbsp;&nbsp;
+	
+
+	
+    
+   
+  
+
+	
+    
+      
+      新浪BLOG意见反馈留言板　不良信息反馈　电话：4006900000 提示音后按1键（按当地市话标准计费）　欢迎批评指正
+   
+      新浪简介 | About Sina | 广告服务 | 联系我们 | 招聘信息 | 网站律师 | SINA English | 会员注册 | 产品答疑 
+       Copyright &copy; 1996 - 2016 SINA Corporation,  All Rights Reserved
+       新浪公司 版权所有
+	  
+    
+  
+
+
+
+
+
+var scope = {
+    $newTray : 1,
+    $setDomain : true,
+    $uid : "1801455983",
+    $PRODUCT_NAME : "blog7",      //blog7photo,blog7icp
+    $pageid : "article",
+    $key :  "659635aa02aa6bd55d8cae455564d67f",
+    $uhost : "wangkendy",
+    $ownerWTtype :"",
+    $private: {"pageset":0,"tj":0,"adver":0,"sms":0,"ad":0,"blogsize":0,"cms":0,"hidecms":0,"top":0,"invitationset":0,"p4p":0,"spamcms":0,"init7":0,"quote":0,"foot":0,"headpic":0,"active":"4","t_sina":"1801455983","oauth_token":1,"oauth_token_secret":1,"uname":"","p_push_t":"1","p_get_t":"1"},
+    $summary: " 把网页上的文章保存到本地，这个需求很常见。但通常也非常容易，ctl+A ctl+C ctl+V就可以了，除非遇到特殊的情况，如这个...  (来自 @头条博客)",
+    $is_photo_vip:0,
+		 $nClass:0,
+		 $articleid:"6b60096f01017c0f",
+		 $sort_id:113,
+		 $cate_id:175,
+		 $isCommentAllow:0,
+		 $album_pic:"",
+		 $pn_x_rank:0,
+		 $x_quote_c:"4",
+		 $flag2008:"",
+		     component_lists:{"2":{"size":730,"list":[920]},"1":{"size":210,"list":[901,903,904,47]}},
+    formatInfo:1,
+    UserPic:[{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":""},{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":""},{"pid":"","repeat":"repeat-x","align-h":"center","align-v":"top","apply":""}],
+    UserBabyPic:{"photoX":0,"photoY":0,"photoURL":null,"angle":0,"zoom":0,"maskX":0,"maskY":0,"maskURL":null,"frameURL":null},
+    UserColor:1,
+    backgroundcolor:"rgb(246, 246, 246)",
+    tpl:"4_1",
+    reclist:0    };
+var $encrypt_code = "77deb26040cf5ce1238b1618a97ce291";
+
+
+
+__load_js();
+__render_page();
+
+
+
+
+        bShare.addEntry({pic: "", title:"分享自kendy  《用python抓取网页文章》", summary:" 把网页上的文章保存到本地，这个需求很常见。但通常也非常容易，ctl+A ctl+C ctl+V就可以了，除非遇到特殊的情况，如这个...  (来自 @头条博客)"});
+     
+
+
+        var slotArr = ['atcTitLi_SLOT_41', 'atcTitLi_SLOT_42','loginBarActivity']; //广告位id
+        var sourceArr = ['SLOT_41','SLOT_42','SLOT_43,SLOT_47,SLOT_48'];  //广告资源id
+        SinaBlog680.staticBox(slotArr, sourceArr);
+
+
+
