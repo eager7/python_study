@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <link rel="icon shortcut" href="/static/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/semantic-ui/2.1.8/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/editormd/css/editormd.min.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/codemirror/5.12.0/codemirror.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+    <script src="//cdn.bootcss.com/require.js/2.1.22/require.min.js"></script>
+<script src="/static/js/lib/config.js"></script>
+</head>
+<body>
+<div class="wrapper">
+    <div class="ui main menu">
+    <div class="header item" onclick="window.open('/','_self')">
+        <em>ElvizLai's Blog</em>
+    </div>
+    <a class="item active" href="/">
+        <i class="icon home"></i>Home
+    </a>
+    <a class="item " href="/archives">
+        <i class="icon calendar"></i>Archives
+    </a>
+    <a class="item " href="/about">
+        <i class="icon qrcode"></i>About
+    </a>
+    
+</div>
+    <div class="ui stackable grid" style="padding-bottom: 48px;width: 100%">
+        <div class="sixteen wide column segment">
+            
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-05-29</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/41">nsq的docker之旅</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="41">
+                    <div class="abstract">
+                        <p>NSQ是用go语言开发的一款消息队列，本文记录了借助docker快速搭建开发过程。</p>
+<p>1.docker network创建<br><code>docker network create nsq</code></p>
+<p>2.运行docker容器nsqlookupd<br><code>docker run -d --net=nsq -p 4160:4160 -p 4161:4161 --name nsqlookupd nsqio/nsq /nsqlookupd</code></p>
+<p>3.运行docker容器nsqd<br><code>docker run -d --net=nsq -p 4150:4150 -p 4151:4151 --name nsqd nsqio/nsq /nsqd --broadcast-address=192.168.99.111 --lookupd-tcp-address=nsqlookupd:4160</code></p>
+<p>其中 broadcast-address 是公网地址</p>
+<p>4.运行docker容器nsqadmin<br><code>docker run -d --net=nsq --name nsqadmin -p 4171:4171 nsqio/nsq /nsqadmin  --lookupd-http-address=nsqlookupd:4161</code></p>
+<p>然后就可以通过:4171来访问nsqadmin啦</p>
+<p>赶紧发两条消息看看吧</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">    curl </span><span class="pun">-</span><span class="pln">d </span><span class="str">'hello world 1'</span><span class="pln"> </span><span class="str">'http://192.168.99.111:4151/put?topic=test'</span></code></li><li class="L1"><code><span class="pln">    curl </span><span class="pun">-</span><span class="pln">d </span><span class="str">'hello world 2'</span><span class="pln"> </span><span class="str">'http://192.168.99.111:4151/put?topic=test'</span></code></li></ol></pre>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/go">go</a>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/nsq">nsq</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-04-26</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/40">Mac下为树莓派3安装Ubuntu Mate 16.04</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="40">
+                    <div class="abstract">
+                        <p>应用于树莓派3的Ubuntu Mate 16.04出来啦，赶紧把官方自带的raspbian换掉吧😊<br>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/%e6%9c%aa%e5%88%86%e7%b1%bb">未分类</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-04-13</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/39">go sql之Query</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="39">
+                    <div class="abstract">
+                        <p>1、使用tx时，rows没有close是否会导致有未被释放的数据库连接？<br>当最后执行tx.Commit()或tx.Rollback()时，相应的连接会被关闭。不会存在未被释放的情况。但仍然建议养成关闭的好习惯。
+</p><p>2、rows.Err()的作用是什么？<br>Err()的相关注释是这样写的：Err returns the error, if any, that was encountered during iteration.<br>但请注意，这些错误，仅与迭代过程中rows错误相关，比如在下一个Next()时，数据库出问题了，或者tx已经结束，tx发生错误。<br>与Scan()处产生的错误没有任何关联。<br>所以，这两部分错误应该单独分别处理。
+</p><p>3、rows.Next()中进行tx.Exec(update)操作？<br>如果rows.Next()是由tx发起的，update语句中包含$1转译，则会报错。此时update相关，应该放到Next循环之外进行。<br>如果进行无转移update，则允许该操作。<br>如果rows.Next()是有DB发起的，则以上操作都是允许的。
+</p>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/go">go</a>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/sql">sql</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-04-07</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/36">[go基础总结]——bytes包</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="36">
+                    <div class="abstract">
+                        <p>总结下bytes包中的各操作。<br>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/go">go</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-04-03</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/35">grpc over tls</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="35">
+                    <div class="abstract">
+                        <p>grpc本身可以工作于常规的tcp模式，但出于数据交换的保密性及安全角度考虑，在其上加一层tls也是极好的。</p>
+
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/go">go</a>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/grpc">grpc</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-04-02</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/34">go 编译时注入</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="34">
+                    <div class="abstract">
+                        <pre class="prettyprint linenums prettyprinted"><ol class="linenums"><li class="L0"><code class="lang-go"><span class="kwd">package</span><span class="pln"> main</span></code></li><li class="L1"><code class="lang-go"></code></li><li class="L2"><code class="lang-go"><span class="kwd">import</span><span class="pln"> </span><span class="pun">(</span></code></li><li class="L3"><code class="lang-go"><span class="pln">    </span><span class="str">"fmt"</span></code></li><li class="L4"><code class="lang-go"><span class="pun">)</span></code></li><li class="L5"><code class="lang-go"></code></li><li class="L6"><code class="lang-go"><span class="kwd">var</span><span class="pln"> DEBUG </span><span class="pun">=</span><span class="pln"> </span><span class="str">"NO"</span></code></li><li class="L7"><code class="lang-go"></code></li><li class="L8"><code class="lang-go"><span class="pln">func main</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span></code></li><li class="L9"><code class="lang-go"><span class="pln">    fmt</span><span class="pun">.</span><span class="typ">Printf</span><span class="pun">(</span><span class="str">"DEBUG is %q\n"</span><span class="pun">,</span><span class="pln"> DEBUG</span><span class="pun">)</span></code></li><li class="L0"><code class="lang-go"><span class="pun">}</span></code></li></ol></pre>
+<p>使用ldflags动态注入：</p>
+<pre class="prettyprint linenums prettyprinted"><ol class="linenums"><li class="L0"><code><span class="pln">go build </span><span class="pun">-</span><span class="pln">ldflags </span><span class="str">'-X main.DEBUG=YES'</span><span class="pln"> test</span><span class="pun">.</span><span class="pln">go</span></code></li></ol></pre>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/go">go</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-03-28</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/33">公钥 密钥 证书整理</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="33">
+                    <div class="abstract">
+                        <p>— 生成 RSA 私钥（带密码的）<br>openssl genrsa -des3 -out rsa_private_key.pem 2048
+</p><p>— 生成 RSA 私钥（传统格式的）</p>
+<p>openssl genrsa -out rsa_private_key.pem 2048</p>
+<p>— 将传统格式的私钥转换成 PKCS#8 格式的</p>
+<p>openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt</p>
+<p>— 生成 RSA 公钥</p>
+<p>openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem</p>
+<p>— 证书请求（可拿到第三方进行签名）<br>openssl req –new -x509 -key rsa_private_key.pem -out server.pem
+</p><p>— 自签名证书<br>openssl req -new -x509 -key rsa_private_key.pem -out ca.pem -days 1095
+</p>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/%e6%9c%aa%e5%88%86%e7%b1%bb">未分类</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-03-01</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/32">数据字典导出备忘</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="32">
+                    <div class="abstract">
+                        <p>遇到需要导出数据字典的情况，PowerDesign的导出方式不再细表。其实在有备注的情况下，可以直接从数据库中导出相应的字典。</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code class="lang-sql"><span class="pln">SELECT  A</span><span class="pun">.</span><span class="pln">TABLE_NAME AS </span><span class="str">"表名"</span><span class="pun">,</span><span class="pln"> A</span><span class="pun">.</span><span class="pln">COLUMN_NAME AS </span><span class="str">"字段名"</span><span class="pun">,</span><span class="pln"> </span></code></li><li class="L1"><code class="lang-sql"><span class="pln">DECODE</span><span class="pun">(</span><span class="pln">A</span><span class="pun">.</span><span class="pln">CHAR_LENGTH</span><span class="pun">,</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln"> DECODE</span><span class="pun">(</span><span class="pln">A</span><span class="pun">.</span><span class="pln">DATA_SCALE</span><span class="pun">,</span><span class="pln"> NULL</span><span class="pun">,</span><span class="pln"> A</span><span class="pun">.</span><span class="pln">DATA_TYPE</span><span class="pun">,</span><span class="pln"> A</span><span class="pun">.</span><span class="pln">DATA_TYPE</span><span class="pun">||</span><span class="str">'('</span><span class="pun">||</span><span class="pln">A</span><span class="pun">.</span><span class="pln">DATA_PRECISION</span><span class="pun">||</span><span class="str">','</span><span class="pun">||</span><span class="pln">A</span><span class="pun">.</span><span class="pln">DATA_SCALE</span><span class="pun">||</span><span class="str">')'</span><span class="pun">),</span></code></li><li class="L2"><code class="lang-sql"><span class="pln">A</span><span class="pun">.</span><span class="pln">DATA_TYPE</span><span class="pun">||</span><span class="str">'('</span><span class="pun">||</span><span class="pln">A</span><span class="pun">.</span><span class="pln">CHAR_LENGTH</span><span class="pun">||</span><span class="str">')'</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> </span><span class="str">"字段类型"</span><span class="pun">,</span><span class="pln">A</span><span class="pun">.</span><span class="pln">DATA_DEFAULT AS </span><span class="str">"默认值"</span><span class="pun">,</span></code></li><li class="L3"><code class="lang-sql"><span class="pln">A</span><span class="pun">.</span><span class="pln">NULLABLE AS </span><span class="str">"能否为空"</span><span class="pun">,</span><span class="pln"> B</span><span class="pun">.</span><span class="pln">comments AS </span><span class="str">"备注"</span></code></li><li class="L4"><code class="lang-sql"><span class="pln">FROM sys</span><span class="pun">.</span><span class="pln">user_tab_columns A</span><span class="pun">,</span><span class="pln"> sys</span><span class="pun">.</span><span class="pln">user_col_comments B</span></code></li><li class="L5"><code class="lang-sql"><span class="pln">WHERE A</span><span class="pun">.</span><span class="pln">table_name</span><span class="pun">=</span><span class="pln">B</span><span class="pun">.</span><span class="pln">table_name AND A</span><span class="pun">.</span><span class="pln">COLUMN_NAME</span><span class="pun">=</span><span class="pln">B</span><span class="pun">.</span><span class="pln">COLUMN_NAME AND A</span><span class="pun">.</span><span class="pln">TABLE_NAME IN </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> table_name </span><span class="kwd">from</span><span class="pln"> user_tables</span><span class="pun">)</span></code></li><li class="L6"><code class="lang-sql"><span class="pln">ORDER BY A</span><span class="pun">.</span><span class="pln">TABLE_NAME</span></code></li></ol></pre>
+
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/sql">sql</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-02-26</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/31">go reflect 反射探究</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="31">
+                    <div class="abstract">
+                        <blockquote>
+<p>反射在计算机的概念里是指一段程序审查自身结构的能力，主要通过类型进行审查。它是元编程的一种形式，同样也是引起混乱的重大来源。</p>
+</blockquote>
+<p>但同时，合理利用反射也为我们编程提供了非常灵活的操作方式及trick，让程序更好的运行。<br>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/go">go</a>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/reflect">reflect</a>
+                
+            </div>
+            
+            <div class="ui raised segment" style="margin-left: 2%">
+                <a class="ui teal ribbon label">2016-02-24</a>
+                <a style="font-size: x-large;font-weight: 800;vertical-align: middle" href="/topic/30">gRPC实战</a>
+                <div class="ui divider"></div>
+                <div class="editormd-view" id="30">
+                    <div class="abstract">
+                        <h4 id="h4-grpc-google-protobuf-http-2-rpc-"><a name="gRPC 是Google出品的一款基于  Protobuf 与HTTP/2的高性能开源RPC通信框架。" class="reference-link"></a><span class="header-link octicon octicon-link"></span><a href="http://www.grpc.io" title="gRPC">gRPC</a>是Google出品的一款基于<a href="https://developers.google.com/protocol-buffers/" title="Protobuf">Protobuf</a>与HTTP/2的高性能开源RPC通信框架。</h4>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
+                
+                <a class="ui tiny tag label" style="margin: 2px 5px 2px 5px" href="/tag/go">go</a>
+                
+            </div>
+            
+            
+<div class="ui tiny buttons center" style="padding-left: 32px">
+    
+    <div class="ui button disabled">First</div>
+    
+    
+    <div  class="ui button active"  onclick="location.href=&#34;/&#34;">
+        1
+    </div>
+    
+    <div  class="ui button"  onclick="location.href=&#34;/?p=2&#34;">
+        2
+    </div>
+    
+    <div  class="ui button"  onclick="location.href=&#34;/?p=3&#34;">
+        3
+    </div>
+    
+    <div  class="ui button"  onclick="location.href=&#34;/?p=4&#34;">
+        4
+    </div>
+    
+    
+    <div class="ui button" onclick="location.href=&#34;/?p=4&#34;">End</div>
+    
+</div>
+
+            
+        </div>
+    </div>
+</div>
+<footer class="footer">
+        <div class="center" style="text-align: center">
+            <a href="https://github.com/elvizlai" target="_blank"><i class="icon big github"></i></a>
+            <a href="http://weibo.com/sdrzlyz" target="_blank"><i class="icon big weibo"></i></a>
+        </div>
+        <div style="color: #999;text-align: center">
+            <a style="">© 2015 ElvizLai</a>
+            
+        </div>
+</footer>
+</body>
+</html>
