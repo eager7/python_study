@@ -11,7 +11,7 @@ class Handler(StreamRequestHandler):#为每个socket客户端创建一个线程
     def handle(self):
         addr = self.request.getpeername()
         NOT_Printf(True, 'Thread[%s] Got Client:%s'%(self,addr))
-        #self.wfile.write('I am Server')
+        self.wfile.write('I am Server')
 
 if __name__ == '__main__':
     DBG_Printf(True, "SocketServer Program")
