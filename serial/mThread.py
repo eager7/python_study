@@ -7,7 +7,7 @@ import signal
 __metaclass__ = type
 class mThread(threading.Thread):
     "This Module is a Thread Lib, New Class need overwrite run method"
-    def __init__(self, thread_info, name):
+    def __init__(self, thread_info=None, name=None):
         super(mThread, self).__init__()
         self.thread_state = True
         self.thread_info = thread_info
