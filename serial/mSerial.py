@@ -82,22 +82,18 @@ class SerialMessage():
 class mSerial(mThread):
     def __init__(self, com=SerialPort, baud=SerialBaud):
         super(mSerial,self).__init__()
-        self.com = com
-        self.baud = baud
         self.read_msg = []
         self.start_flag = False
         self.serial = None
-        if not self.__open__():
+        if not self.__open__(com, baud):
             self.Print("Can't Open Serial")
             exit(1)
+        print 'Serial Init Success'
 
-    def __open__(self):
+    def __open__(self, com, baud):
         try:
-            self.serial = serial.Serial(self.com, self.baud)
-            self.serial.bytesize = 8
-            self.serial.parity = 'N'
-            self.serial.stopbits = 1
-            self.serial.timeout = 0.05
+            self.serial = serial.Serial(port=com,baudrate=baud,bytesize=8,
+                    parity='N',stopbits=1,timeout=1,rtscts=True,dsrdtr=True)
             return True
         except Exception as e:
             self.Print(e)
@@ -117,6 +113,7 @@ class mSerial(mThread):
         global mQueue
         while self.thread_state:
             c = self.serial.read(1)
+            print c
             if c == '':
                 continue
             if (c == 0x01) and (self.start_flag == False):
