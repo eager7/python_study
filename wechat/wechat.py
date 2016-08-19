@@ -10,6 +10,9 @@ user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firef
 def ERR_Printf(x):#Red
     print "\033[31;1m" + "[ERR]", x, "\033[0m"
 
+def DBG_Printf(x):#Blue
+    print "\033[34;1m" + "[DBG]",x,"\033[0m"
+
 def get_uuid(my_request):
     global uuid
     url = 'https://login.weixin.qq.com/jslogin'#微信网页登录地址
@@ -172,7 +175,13 @@ def main():
         ERR_Printf('wechat_init failed')
         return
     print 'Wechat Init Success, Get Contact'
-    print wechat_get_contact(my_request)
+    MemberList = wechat_get_contact(my_request)
+    with open('contact.txt', 'w') as f:
+        f.write(json.dumps(MemberList))
+
+    DBG_Printf("Your Friends' Number is %d"%len(MemberList))
+    for Member in MemberList:
+        DBG_Printf(Member['NickName'])
 
 if __name__ == '__main__':
     print 'wechat program...'

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7e0445db-61cd-414e-bd09-7fd624d12c34" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/python_study.iml" afterPath="$PROJECT_DIR$/.idea/python_study.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/wechat/wechat.py" afterPath="$PROJECT_DIR$/wechat/wechat.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="python_study.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,13 +36,26 @@
       <file leaf-file-name="wechat.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wechat/wechat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.74418604" vertical-offset="1995" max-vertical-offset="2869">
-              <caret line="171" column="40" selection-start-line="171" selection-start-column="40" selection-end-line="171" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.74418604" vertical-offset="722" max-vertical-offset="1691">
+              <caret line="175" column="14" selection-start-line="175" selection-start-column="14" selection-end-line="175" selection-end-column="14" />
               <folding>
                 <element signature="e#265#307#0" expanded="false" />
-                <element signature="e#339#909#0" expanded="false" />
-                <element signature="e#944#1445#0" expanded="false" />
+                <element signature="e#409#979#0" expanded="false" />
+                <element signature="e#1014#1515#0" expanded="false" />
+                <element signature="e#1548#3011#0" expanded="false" />
+                <element signature="e#3040#3833#0" expanded="false" />
+                <element signature="e#3868#4433#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mDbg.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/socket/mDbg.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="7" selection-end-column="48" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -619,8 +629,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#265#307#0" expanded="false" />
-            <element signature="e#339#909#0" expanded="false" />
-            <element signature="e#944#1445#0" expanded="false" />
+            <element signature="e#409#979#0" expanded="false" />
+            <element signature="e#1014#1515#0" expanded="false" />
+            <element signature="e#1548#3011#0" expanded="false" />
+            <element signature="e#3040#3833#0" expanded="false" />
+            <element signature="e#3868#4433#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -631,8 +644,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#265#307#0" expanded="false" />
-            <element signature="e#339#909#0" expanded="false" />
-            <element signature="e#944#1445#0" expanded="false" />
+            <element signature="e#409#979#0" expanded="false" />
+            <element signature="e#1014#1515#0" expanded="false" />
+            <element signature="e#1548#3011#0" expanded="false" />
+            <element signature="e#3040#3833#0" expanded="false" />
+            <element signature="e#3868#4433#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -643,8 +659,11 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#265#307#0" expanded="false" />
-            <element signature="e#339#909#0" expanded="false" />
-            <element signature="e#944#1445#0" expanded="false" />
+            <element signature="e#409#979#0" expanded="false" />
+            <element signature="e#1014#1515#0" expanded="false" />
+            <element signature="e#1548#3011#0" expanded="false" />
+            <element signature="e#3040#3833#0" expanded="false" />
+            <element signature="e#3868#4433#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -655,8 +674,11 @@
           <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
           <folding>
             <element signature="e#265#307#0" expanded="false" />
-            <element signature="e#339#909#0" expanded="false" />
-            <element signature="e#944#1445#0" expanded="false" />
+            <element signature="e#409#979#0" expanded="false" />
+            <element signature="e#1014#1515#0" expanded="false" />
+            <element signature="e#1548#3011#0" expanded="false" />
+            <element signature="e#3040#3833#0" expanded="false" />
+            <element signature="e#3868#4433#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -745,14 +767,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/socket/mDbg.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="830">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python2.7/ntpath.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="769" max-vertical-offset="10431">
@@ -777,14 +791,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/socket/mDbg.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="665">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="7" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wechat/wechat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.74418604" vertical-offset="1995" max-vertical-offset="2869">
-          <caret line="171" column="40" selection-start-line="171" selection-start-column="40" selection-end-line="171" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.74418604" vertical-offset="722" max-vertical-offset="1691">
+          <caret line="175" column="14" selection-start-line="175" selection-start-column="14" selection-end-line="175" selection-end-column="14" />
           <folding>
             <element signature="e#265#307#0" expanded="false" />
-            <element signature="e#339#909#0" expanded="false" />
-            <element signature="e#944#1445#0" expanded="false" />
+            <element signature="e#409#979#0" expanded="false" />
+            <element signature="e#1014#1515#0" expanded="false" />
+            <element signature="e#1548#3011#0" expanded="false" />
+            <element signature="e#3040#3833#0" expanded="false" />
+            <element signature="e#3868#4433#0" expanded="false" />
           </folding>
         </state>
       </provider>
