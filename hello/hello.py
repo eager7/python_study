@@ -15,3 +15,12 @@ if __name__ == '__main__':
     b = 'x'
 
     print ord(b)
+
+
+    lists = [1,2,5,8,7,3,4,9]
+    print lists.sort()
+    print lists
+    lists = lists[1:-1]
+    print lists
+    print sum(lists), len(lists)
+    print sum(lists)/len(lists)
