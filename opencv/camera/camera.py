@@ -14,8 +14,9 @@ if __name__ == '__main__':
         ret, frame = capture.read()
         if ret == True:
             cv2.imshow("Camera", frame)
+            print frame.cows
             #frame_w = cv2.flip(frame, 0) #overturn picture
-            out.write(frame)
+            #out.write(frame)
         if cv2.waitKey(1)&0xff == ord('q'):
             break
     capture.release()
