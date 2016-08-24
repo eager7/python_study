@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import ssl,requests,time,re,subprocess,sys,xml.dom.minidom,os,json,threading,logging
-from mThread import mThread
+import ssl,requests,time,re,subprocess,sys,xml.dom.minidom,os,json,threading
+import numpy as np
+import pandas as pd
+from pandas import Series,DataFrame
+from mLib.mThread import mThread
+from mLib.mDbg import *
 __metaclass__ = type
 
 #模拟浏览器的代理设置
@@ -28,7 +32,7 @@ _SpecialUsers = [#微信中的特殊联系人信息
 
 class mWechat(mThread):
     def __init__(self, thread_info = None, name = None):
-        super(mWechat).__init__(self)
+        super(mWechat,self).__init__(thread_info,name)
         if hasattr(ssl, '_create_unverified_context'):
             ssl._create_default_https_context = ssl._create_unverified_context
         headers = {'User-agent': _user_agent}
@@ -52,31 +56,25 @@ class mWechat(mThread):
         self.MemberCount = 0        #联系人个数
         self.MemberList = {}        #联系人列表
 
-    def ERR_Printf(self,x):#Red
-        print "\033[31;1m" + "[ERR]", x, "\033[0m"
-
-    def DBG_Printf(self,x):#Blue
-        print "\033[34;1m" + "[DBG]",x,"\033[0m"
-
     def run(self):
-        self.DBG_Printf('Start Running')
+        DBG_Printf('Start Running')
         if not self.get_uuid():
-            self.ERR_Printf('get uuid failed')
+            ERR_Printf('get uuid failed')
             return -1
         self.get_qr_code()
         self.wait_scan()
         if not self.login():
-            self.ERR_Printf('Login Failed...')
+            ERR_Printf('Login Failed...')
 
         print 'Login Success'
         if not self.wechat_init():
-            self.ERR_Printf('wechat_init failed')
+            ERR_Printf('wechat_init failed')
             return
         print 'Wechat Init Success, Get Contact'
         self.wechat_get_contact()
-        with open('contact.txt', 'w') as f:
+        with open('contact.csv', 'w') as f:
             f.write(json.dumps(self.MemberList))
-        self.DBG_Printf("Your Friends' Number is %d"%len(self.MemberList))
+        DBG_Printf("Your Friends' Number is %d"%len(self.MemberList))
 
         self.down_image()
         #threading.Thread(target=self.heart_beat)
@@ -105,7 +103,7 @@ class mWechat(mThread):
         if code == '200':
             return True
         else:
-            self.ERR_Printf(code)
+            ERR_Printf(code)
             return False
 
     def get_qr_code(self):
@@ -150,7 +148,7 @@ class mWechat(mThread):
                 os.system('killall eog')
                 return
             elif code == '408':
-                self.ERR_Printf('timeout...')
+                ERR_Printf('timeout...')
 
     def login(self):
         data = self.my_request.get(url=self.redirect_uri)
@@ -191,7 +189,7 @@ class mWechat(mThread):
         self.synckey = '|'.join(
             [str(keyVal['Key']) + '_' + str(keyVal['Val']) for keyVal in self.SyncKey['List']])
         if dic['BaseResponse']['Ret'] != 0:
-            self.ERR_Printf('Wechat Init Failed')
+            ERR_Printf('Wechat Init Failed')
             return False
         return True
 
@@ -247,7 +245,7 @@ class mWechat(mThread):
         dic = r.json()
         SyncKey = dic['SyncKey']
         if dic['BaseResponse']['Ret'] != 0:
-            self.ERR_Printf('Wechat Init Failed')
+            ERR_Printf('Wechat Init Failed')
             return False
         return True
 
@@ -268,5 +266,12 @@ def main():
     we.start()
 
 if __name__ == '__main__':
-    main()
+    #main()
+
+    if True:
+        arr = np.array(['abcd'])
+        dic = {'a':1,'b':2}
+        df = pd.DataFrame(dic)
+        df.to_csv('./resource/test.csv')
+
     raw_input('Enter exit...\n')
