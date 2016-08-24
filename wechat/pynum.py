@@ -13,17 +13,22 @@ def main():
     with open('contact.txt', 'r') as f:
         records = json.load(f)
     print len(records)
+    print records[0]
     citys = [record['City'] for record in records if 'City' in record]
-    print citys
-    counts = Counter(citys)
-    for x in counts.most_common():
-        print x[0],x[1]
+    #print citys
+    #counts = Counter(citys)
+    #for x in counts.most_common():
+        #print x[0],x[1]
     print '----------------'*10
 
     frame = DataFrame(records)
-    print frame['City'].value_counts()
+    #print frame['City'].value_counts()
     series = frame['City'].value_counts()
     series.plot(kind='barh', rot=0)
+    plt.show()
+
+    sex = frame['Sex'].value_counts()
+    sex.plot(kind='barh',rot=0)
     plt.show()
 
 if __name__ == '__main__':
