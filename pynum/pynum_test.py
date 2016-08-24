@@ -37,5 +37,9 @@ def main():
     print df2
     print df2.dtypes
 
+    print '---' * 10
+    r = {i:np.random.randn() for i in range(7)}
+    print r
+
 if __name__ == '__main__':
     main()
