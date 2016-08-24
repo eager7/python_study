@@ -72,7 +72,7 @@ class mWechat(mThread):
             return
         print 'Wechat Init Success, Get Contact'
         self.wechat_get_contact()
-        with open('contact.csv', 'w') as f:
+        with open('./resource/contact.txt', 'w') as f:
             f.write(json.dumps(self.MemberList))
         DBG_Printf("Your Friends' Number is %d"%len(self.MemberList))
 
@@ -267,11 +267,5 @@ def main():
 
 if __name__ == '__main__':
     #main()
-
-    if True:
-        arr = np.array(['abcd'])
-        dic = {'a':1,'b':2}
-        df = pd.DataFrame(dic)
-        df.to_csv('./resource/test.csv')
 
     raw_input('Enter exit...\n')
