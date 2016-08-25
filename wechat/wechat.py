@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import ssl, requests, time, re, subprocess, sys, xml.dom.minidom, os, json, threading
-import numpy as np
-import pandas as pd
+from mLib.mDecorator import catch_keyboard_interrupt
 from pandas import Series,DataFrame
+from multiprocessing import Process,Queue
 from mLib.mThread import mThread
 from mLib.mDbg import *
 __metaclass__ = type
@@ -39,9 +39,8 @@ _SyncHost = [
     'webpush1.wechatapp.com',
     # 'webpush.wechatapp.com'
 ]
-class mWechat(mThread):
-    def __init__(self, thread_info=None, name=None):
-        super(mWechat, self).__init__(thread_info,name)
+class mWechat():
+    def __init__(self):
         if hasattr(ssl, '_create_unverified_context'):
             ssl._create_default_https_context = ssl._create_unverified_context
         headers = {'User-agent': _user_agent}
@@ -66,34 +65,6 @@ class mWechat(mThread):
         self.MemberList = {}        # 联系人列表
         self.SyncProcess = None     # 同步进程句柄
         self.syncHost = None
-
-    def run(self):
-        DBG_Printf('Start Running')
-        if not self.get_uuid():
-            ERR_Printf('get uuid failed')
-            return -1
-        self.get_qr_code()
-        self.wait_scan()
-        if not self.login():
-            ERR_Printf('Login Failed...')
-
-        print 'Login Success'
-        if not self.wechat_init():
-            ERR_Printf('wechat_init failed')
-            return
-        print 'Wechat Init Success, Get Contact'
-        self.wechat_get_contact()
-        DBG_Printf("Your Friends' Number is %d"%len(self.MemberList))
-        dic = {}
-        mlist = self.MemberList[0].keys()
-        for l in mlist:
-            dic[l] = [r[l] for r in self.MemberList]
-        DataFrame(dic).to_csv('./resource/contact.csv', encoding='utf-8')
-
-        threading.Thread(target=self.webwx_sync(), name='webwx_sync')
-
-        self.down_image()
-        self.stop()
 
     def get_uuid(self):
         url = 'https://login.weixin.qq.com/jslogin'#微信网页登录地址
@@ -245,12 +216,16 @@ class mWechat(mThread):
     def down_image(self):
         index = 0
         for member in self.MemberList:
-            name = './'+str(index)+'.jpg'
+            name = './resource/'+str(index)+'.jpg'
             image_url = 'https://wx.qq.com'+member['HeadImgUrl']
-            r = self.my_request.get(url=image_url,headers={'User-agent': _user_agent})
+            print 'get picture %s' % image_url
+            r = self.my_request.get(url=image_url, headers={'User-agent': _user_agent})
+            if not r.content:
+                log(W, 'can not not get picture')
+                continue
             with open(name, 'wb') as f:
                 f.write(r.content)
-                print 'Download %d picture finished'%index
+                print 'Download %d picture finished' % index
             index += 1
 
     def sync_check(self):
@@ -277,29 +252,54 @@ class mWechat(mThread):
             self.syncHost = host
             [retcode, _] = self.sync_check()
             if retcode == '0':  # 通信成功
+                print 'sync success'
                 break
-        while self.thread_state:
+        while True:
+            print 'webwc sync'
             [retcode, selector] = self.sync_check()
             if retcode == '0':  # 通信成功
-                print 'sync success'
                 if selector == '0':
                     print 'sync normal'
                 elif selector == '2':
                     print 'new message'
                 elif selector == '7':
                     print 'leave or in room'
-            elif retcode == '1101': # 微信在别的地方登录
+            elif retcode == '1101':  # 微信在别的地方登录
                 print 'webwx exit'
-            elif retcode == '1100': # 微信在手机上登出
+            elif retcode == '1100':  # 微信在手机上登出
                 print 'phone wx exit'
             time.sleep(3)
 
+    def start(self):
+        DBG_Printf('Start Running')
+        if not self.get_uuid():
+            ERR_Printf('get uuid failed')
+            return -1
+        self.get_qr_code()
+        self.wait_scan()
+        if not self.login():
+            log(E, 'Login Failed...')
+
+        print 'Login Success'
+        if not self.wechat_init():
+            ERR_Printf('wechat_init failed')
+            return
+        print 'Wechat Init Success, Get Contact'
+        self.wechat_get_contact()
+        DBG_Printf("Your Friends' Number is %d"%len(self.MemberList))
+        dic = {}
+        mlist = self.MemberList[0].keys()
+        for l in mlist:
+            dic[l] = [r[l] for r in self.MemberList]
+        DataFrame(dic).to_csv('./resource/contact.csv', encoding='utf-8')
+        self.down_image()
+
+
 def main():
     print 'wechat program...'
-    we = mWechat(name='wechat')
+    we = mWechat()
     we.start()
 
 if __name__ == '__main__':
     main()
-
-    raw_input('Enter exit...\n')
+    raw_input('Enter to exit...\n')
