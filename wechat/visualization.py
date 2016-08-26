@@ -14,7 +14,7 @@ def main():
 
     frame = DataFrame.from_csv('./resource/contact.csv')
 
-    plt.figure(figsize=(6, 12))  # size of picture
+    plt.figure(figsize=(12, 12))  # size of picture
     plt.subplot(2, 1, 1)    # 行，列，图像位置
 
     # 显示男女比例
@@ -26,6 +26,7 @@ def main():
                                       autopct='%3.1f%%',    # 圆里面的文本格式，%3.1f%%表示小数有三位，整数有一位的浮点数
                                       startangle=90,        # 起始角度，0，表示从0开始逆时针转，为第一块。一般选择从90度开始比较好看
                                       pctdistance=0.6)      # 百分比的text离圆心的距离
+    plt.axis('equal')                   # 设置x，y轴刻度一致，否则将画出椭圆
     [l.set_size(10) for l in l_text]    # 设置圆外部文本的大小
     [p.set_size(10) for p in p_text]    # 设置圆内部文本的大小
     plt.legend(loc='upper left')        # 显示图例
