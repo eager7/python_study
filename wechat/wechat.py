@@ -39,6 +39,8 @@ _SyncHost = [
     'webpush1.wechatapp.com',
     # 'webpush.wechatapp.com'
 ]
+
+
 class mWechat():
     def __init__(self):
         if hasattr(ssl, '_create_unverified_context'):
@@ -118,7 +120,8 @@ class mWechat():
                 result = re.search(r'window.redirect_uri="(\S+?)";',data.text)
                 '''
                 此处返回值为：
-                window.redirect_uri="https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?ticket=Axa8pgsqi9XNOFk1RPwCnos6@qrticket_0&uuid=IdEAO5hslQ==&lang=zh_CN&scan=1471596025"
+                window.redirect_uri="https://wx2.qq.com/cgi-bin/mmwebwx-bin/webwxnewloginpage?
+                ticket=Axa8pgsqi9XNOFk1RPwCnos6@qrticket_0&uuid=IdEAO5hslQ==&lang=zh_CN&scan=1471596025"
                 '''
                 self.redirect_uri = result.group(1) + '&fun=new'# 组成login方法中的链接地址
                 self.push_uri = self.base_uri = self.redirect_uri[:self.redirect_uri.rfind('/')]
