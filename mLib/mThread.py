@@ -3,8 +3,12 @@
 
 import threading
 import signal
+import time
+from mDecorator import catch_keyboard_interrupt
 
 __metaclass__ = type
+
+
 class mThread(threading.Thread):
     '''This Module is a Thread Lib, New Class need overwrite run method'''
     def __init__(self, thread_info=None, name=None):
@@ -15,7 +19,8 @@ class mThread(threading.Thread):
 
     def run(self):
         while self.thread_state:
-            print "%s Run..."%self.name
+            print "%s Run..." % self.name
+            time.sleep(1)
 
     def stop(self):
         print "stop thread:", self.name
@@ -25,7 +30,16 @@ class mThread(threading.Thread):
     def display(self):
         print "thread:", self.name, "is running"
 
-if __name__ == '__main__':
+
+@catch_keyboard_interrupt
+def main():
     print "This is mThread Test"
     t = mThread(None, "Test")
+    t.start()
     t.display()
+    while True:
+        print 'main loop'
+        time.sleep(1)
+
+if __name__ == '__main__':
+    main()

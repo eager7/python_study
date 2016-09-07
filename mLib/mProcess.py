@@ -6,6 +6,7 @@ import signal,time
 
 __metaclass__ = type
 
+
 class mProcess():
     '''
     Process

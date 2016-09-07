@@ -45,7 +45,8 @@ def daemonize(stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):  # 重
     os.dup2(se.fileno(), sys.stderr.fileno())
 
 if __name__ == '__main__':
-    daemonize('/dev/null', '/tmp/daemon_stdout.log', '/tmp/daemon_error.log')
+    if len(sys.argv) > 1 and '-D' in sys.argv:
+        daemonize('/dev/null', '/tmp/daemon_stdout.log', '/tmp/daemon_error.log')
     while True:
         print 'loop...'
         time.sleep(1)
