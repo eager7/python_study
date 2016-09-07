@@ -1,10 +1,15 @@
-from distutils.core import setup
+
+from setuptools import setup, find_packages
 
 setup(name='Hello',
     version='1.0',
     description='A Simple Example',
     author='PCT',
-    py_modules=['hello']
+    py_modules=['hello'],
+    packages=find_packages(),
+    install_requires=[
+        'pyzmq>1.0',
+        'pct>1.0',
+    ],
 )
-setup(install_requires=["numpy >= 3.8.1", "pandas >= 0.14.1"])
 
