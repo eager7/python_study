@@ -4,6 +4,7 @@
 "This Module is a Decorator Lib"
 
 
+# 装饰器，可以用来捕获按键的ctrl c命令，然后调用回调函数callback来处理异常，如果callback没有设置，则不会做任何动作
 def catch_keyboard_interrupt(callback=None):
     def decorator(fn):
         def wrapper(*args):
