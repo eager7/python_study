@@ -9,11 +9,7 @@ from pandas import DataFrame, Series
 import matplotlib.pyplot as plt
 
 
-def main():
-    print 'we_chat data visualization process'
-
-    frame = DataFrame.from_csv('./resource/contact.csv')
-
+def show_result(frame):
     plt.figure(figsize=(12, 12))  # size of picture
     plt.subplot(2, 1, 1)    # 行，列，图像位置
 
@@ -38,6 +34,11 @@ def main():
 
     plt.show()
 
+
+def main():
+    print 'we_chat data visualization process'
+    frame = DataFrame.from_csv('./resource/contact.csv')
+    show_result(frame)
 
 
 if __name__ == '__main__':
